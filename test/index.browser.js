@@ -36,11 +36,15 @@ Predicty.prototype.items = function(items){
         return;
     }
 
-    this._items = items;
+    this._items = items.slice();
     this._update();
+    this.emit('value', items);
 };
 Predicty.prototype._acceptPredition = function(){
-    this.value(this._suggestion);
+    if(this._suggestion != null){
+        this.value(this._suggestion);
+        this.emit('accept', this._suggestion);
+    }
 };
 Predicty.prototype._matchItem = function(value, item){
     return value && item.toLowerCase().indexOf(value.toLowerCase()) === 0;
@@ -102,8 +106,11 @@ Predicty.prototype._render = function(){
 Predicty._debind = function(){
     if(this._inputListener){
         this.inputElement.removeEventListener('keyup', this._inputListener);
-        this.inputElement.removeEventListener('keydown', this._tabListener);
         this._inputListener = null;
+    }
+    if(this._tabListener){
+        this.inputElement.removeEventListener('keydown', this._tabListener);
+        this._tabListener = null;
     }
 };
 
