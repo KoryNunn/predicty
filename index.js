@@ -37,9 +37,9 @@ Predicty.prototype.items = function(items){
 
     this._items = items.slice();
     this._update();
-    this.emit('value', items);
+    this.emit('items', items);
 };
-Predicty.prototype._acceptPredition = function(){
+Predicty.prototype._acceptPrediction = function(){
     if(this._suggestion != null){
         this.value(this._suggestion);
         this.emit('accept', this._suggestion);
@@ -86,7 +86,7 @@ Predicty.prototype._bindEvents = function(){
     this._tabListener = function(event){
         if(event.which === 9){
             event.preventDefault();
-            predicty._acceptPredition();
+            predicty._acceptPrediction();
         }
     };
 
